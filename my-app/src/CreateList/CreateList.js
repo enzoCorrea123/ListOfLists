@@ -26,8 +26,8 @@ const createList = ({navigation})=>{
         <View>
             <Text>Adicionar uma nova lista</Text>
             <TextInput placeholder="Nome da lista" value={name} onChangeText={setName} style={styles.input}/>
-            <Pressable onPress={()=>{navigation.navigate("Lista", {nameList: name})}}>
-                <Text>Confirmar</Text>
+            <Pressable onPress={()=>{navigation.navigate("Lista", {nameList: name})}} style={styles.button}>
+                <Text style={styles.txt}>Confirmar</Text>
             </Pressable>
         </View>
     )
@@ -40,6 +40,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
         fontSize: 15,
+        borderRadius: 10,
+    },
+    button:{
+        width: 150,
+        padding: 5,
+        backgroundColor: "#41B3FF",
+        marginTop: 10,
+        borderRadius: 10,
+    },
+    txt:{
+        textAlign: "center"
     }
 })
 export default createList;

@@ -10,22 +10,24 @@ const buttonCreate = ({ route, navigation }) => {
     const focus = useIsFocused();
 
     useEffect(() => {
-        getUserName();
-    }, []);
-
-    useEffect(() => {
-        setListOfLists(nameList);
+        getListName();
     }, [focus]);
 
-    const getUserName = async () => {
+    useEffect(()=>{
+        setListName()
+    },[listOfLists])
+
+    const getListName = async () => {
         const listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
         if (listName) {
             setListOfLists(JSON.parse(listName));
         }
     }
-    const setUserName = async ()=>{{
-        //setar o nome novo
-    }}
+    const setListName = async () => {
+        const list = listOfLists || "";
+        await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
+    }
+    
     const printList = useMemo(() => {
         if (listOfLists && listOfLists.length > 0) {
             return listOfLists.map((list, index) => (
