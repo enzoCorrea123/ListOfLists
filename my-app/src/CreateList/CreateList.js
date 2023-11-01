@@ -8,8 +8,11 @@ const createList = ({navigation})=>{
     useEffect(() => { saveUserName() }, [name]);
 
     const saveUserName = async () => {
-        const saveName = [name] || [];
-        await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(saveName));
+        const saveName = name || "";
+        const list = [...listOfLists];
+        list.push(saveName);
+        setListOfLists(list);
+        await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
         console.log('foi')
     }
 

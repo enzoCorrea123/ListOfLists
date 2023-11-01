@@ -18,16 +18,20 @@ const buttonCreate = ({ route, navigation }) => {
     },[listOfLists])
 
     const getListName = async () => {
-        const listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
+        let  listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
         if (listName) {
-            setListOfLists(JSON.parse(listName));
+            listName = JSON.parse(listName);
         }
+        const list = [...listOfLists];
+        list.push(listName);
+        setListOfLists(list);
+        
     }
     const setListName = async () => {
         const list = listOfLists || "";
         await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
     }
-    
+
     const printList = useMemo(() => {
         if (listOfLists && listOfLists.length > 0) {
             return listOfLists.map((list, index) => (
