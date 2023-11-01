@@ -23,7 +23,9 @@ const buttonCreate = ({ route, navigation }) => {
             setListOfLists(JSON.parse(listName));
         }
     }
-
+    const setUserName = async ()=>{{
+        //setar o nome novo
+    }}
     const printList = useMemo(() => {
         if (listOfLists && listOfLists.length > 0) {
             return listOfLists.map((list, index) => (
