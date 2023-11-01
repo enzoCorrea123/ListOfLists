@@ -5,31 +5,20 @@ import metadata from "../storage.metadata.json";
 const createList = ({navigation})=>{
     const [name, setName] = useState("");
     const [listOfLists, setListOfLists] = useState([]);
-    useEffect(() => { saveUserName() }, [name]);
 
-    const saveUserName = async () => {
+    const handleInput = async()=>{
         const saveName = name || "";
         const list = [...listOfLists];
         list.push(saveName);
         setListOfLists(list);
         await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
-        console.log('foi')
     }
-
-    // const handleInput = ()=>{
-    //     console.log('foi')
-    //     const list = [...listOfLists];
-    //     list.push(name);
-    //     setListOfLists(list);
-    //     navigation.navigate("Lista")
-    //     console.log(list)
-    // }
 
     return (
         <View>
             <Text>Adicionar uma nova lista</Text>
             <TextInput placeholder="Nome da lista" value={name} onChangeText={setName} style={styles.input}/>
-            <Pressable onPress={()=>{navigation.navigate("Lista", {nameList: name})}} style={styles.button}>
+            <Pressable onPress={()=>{handleInput()}} style={styles.button}>
                 <Text style={styles.txt}>Confirmar</Text>
             </Pressable>
         </View>
