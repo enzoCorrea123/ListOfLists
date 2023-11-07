@@ -12,6 +12,8 @@ const createList = ({navigation})=>{
         list.push(saveName);
         setListOfLists(list);
         await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
+
+        navigation.navigate("Lista")
     }
 
     return (

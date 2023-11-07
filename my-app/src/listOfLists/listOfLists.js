@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import metadata from "../storage.metadata.json";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
-const buttonCreate = ({ route, navigation }) => {
+const list = ({ route, navigation }) => {
     const nameList = route.params;
     const [listOfLists, setListOfLists] = useState([]);
 
@@ -11,6 +11,7 @@ const buttonCreate = ({ route, navigation }) => {
 
     useEffect(() => {
         getListName();
+        
     }, [focus]);
 
     useEffect(()=>{
@@ -18,26 +19,41 @@ const buttonCreate = ({ route, navigation }) => {
     },[listOfLists])
 
     const getListName = async () => {
-        let  listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
-        if (listName) {
-            listName = JSON.parse(listName);
+        console.log("get")
+        if(focus){
+            let  listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
+            if (listName) {
+                listName = JSON.parse(listName);
+            }
+            if (!listName) {
+                listName = new Array();
+              }
+            const list = [...listOfLists];
+    
+            if(list.length == 0){
+                list.push(...listName);
+                setListOfLists(list);
+            }else{
+                console.log("else")
+                list.push(listName[listName.length-1]);
+                setListOfLists(list);
+            }
+
         }
-        const list = [...listOfLists];
-        list.push(listName);
-        setListOfLists(list);
-        
+             
     }
     const setListName = async () => {
         const list = listOfLists || "";
         await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
     }
-
+    alert(listOfLists)
+    console.log(listOfLists)
     const printList = useMemo(() => {
         if (listOfLists && listOfLists.length > 0) {
             return listOfLists.map((list, index) => (
                 <View key={index} style={styles.components}>
-                    <Text>{list}</Text>
-                    <Text>15/08/2005 19:00</Text>
+                    <Text style={styles.txt}>{list}</Text>
+                    <Text style={styles.txt}>{(new Date().toLocaleString())}</Text>
                 </View>
             ));
         }
@@ -70,9 +86,12 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 1,
         width: 300,
-        padding: 10,
+        padding: 30,
         borderRadius: 10,
         
+    },
+    txt:{
+        color: "black"
     }
 })
-export default buttonCreate;
+export default list;
