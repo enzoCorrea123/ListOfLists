@@ -4,12 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import metadata from "../storage.metadata.json";
 const createList = ({navigation})=>{
     const [name, setName] = useState("");
-    const [listOfLists, setListOfLists] = useState([]);
 
-    const handleInput = async()=>{
+    const handleInput = async () => {
         const saveName = name || "";
-        const list = [...listOfLists];
+        console.log("nossa")
+        let list = await AsyncStorage.getItem(metadata.LIST.LISTNAME) || "";
+        list = JSON.parse(list)
         list.push(saveName);
+        console.log(list)
         setListOfLists(list);
         await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
 

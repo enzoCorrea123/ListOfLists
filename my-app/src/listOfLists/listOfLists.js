@@ -1,4 +1,4 @@
-import { View, Text, Pressable,StyleSheet, Button } from "react-native"
+import { View, Text, Pressable, StyleSheet, Button } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import metadata from "../storage.metadata.json";
 import { useIsFocused } from "@react-navigation/native";
@@ -11,53 +11,56 @@ const list = ({ route, navigation }) => {
 
     useEffect(() => {
         getListName();
-        
     }, [focus]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setListName()
-    },[listOfLists])
+    }, [listOfLists])
 
     const getListName = async () => {
         console.log("get")
-        if(focus){
-            let  listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
+        if (focus) {
+            let listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
             if (listName) {
                 listName = JSON.parse(listName);
+                setListOfLists(listName);
+                return
             }
+            return
             if (!listName) {
                 listName = new Array();
-              }
+            }
             const list = [...listOfLists];
-    
-            if(list.length == 0){
+
+            if (list.length == 0) {
                 list.push(...listName);
                 setListOfLists(list);
-            }else{
+            } else {
                 console.log("else")
-                list.push(listName[listName.length-1]);
+                list.push(listName[listName.length - 1]);
                 setListOfLists(list);
             }
 
         }
-             
+
     }
     const setListName = async () => {
         const list = listOfLists || "";
         await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
     }
-    alert(listOfLists)
     console.log(listOfLists)
     const printList = useMemo(() => {
         if (listOfLists && listOfLists.length > 0) {
-            return listOfLists.map((list, index) => (
-                <View key={index} style={styles.components}>
-                    <Text style={styles.txt}>{list}</Text>
-                    <Text style={styles.txt}>{(new Date().toLocaleString())}</Text>
-                </View>
-            ));
+            return (
+                listOfLists.map((list, index) => (
+                    <View key={index} style={styles.components}>
+                        <Text style={styles.txt}>{list}</Text>
+                        <Text style={styles.txt}>{(new Date().toLocaleString())}</Text>
+                    </View>
+                )
+                ));
         }
-    },[listOfLists]);
+    }, [listOfLists]);
 
     return (
         <View>
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 10,
     },
-    components:{
+    components: {
         flex: 1,
         flexDirection: 'row',
         gap: 10,
@@ -88,9 +91,9 @@ const styles = StyleSheet.create({
         width: 300,
         padding: 30,
         borderRadius: 10,
-        
+
     },
-    txt:{
+    txt: {
         color: "black"
     }
 })
