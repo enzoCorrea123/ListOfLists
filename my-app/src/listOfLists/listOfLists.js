@@ -23,22 +23,7 @@ const list = ({ route, navigation }) => {
             let listName = await AsyncStorage.getItem(metadata.LIST.LISTNAME);
             if (listName) {
                 listName = JSON.parse(listName);
-                setListOfLists(listName);
-                return
-            }
-            return
-            if (!listName) {
-                listName = new Array();
-            }
-            const list = [...listOfLists];
-
-            if (list.length == 0) {
-                list.push(...listName);
-                setListOfLists(list);
-            } else {
-                console.log("else")
-                list.push(listName[listName.length - 1]);
-                setListOfLists(list);
+                setListOfLists(listName)
             }
 
         }

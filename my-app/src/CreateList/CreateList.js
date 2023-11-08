@@ -6,12 +6,12 @@ const createList = ({navigation})=>{
     const [name, setName] = useState("");
 
     const handleInput = async () => {
+        
         const saveName = name || "";
-        console.log("nossa")
-        let list = await AsyncStorage.getItem(metadata.LIST.LISTNAME) || "";
-        list = JSON.parse(list)
+        let list = await AsyncStorage.getItem(metadata.LIST.LISTNAME) || [];
+        alert(list)
+        list = JSON.parse(list);
         list.push(saveName);
-        console.log(list)
         await AsyncStorage.setItem(metadata.LIST.LISTNAME, JSON.stringify(list));
         
         navigation.navigate("Lista")
